@@ -43,7 +43,6 @@ var (
 	datesInfo        []Date
 	relationMap      map[string]json.RawMessage
 	relationInfo     []Relation
-	DatesLocationMap map[string]json.RawMessage
 )
 
 func ArtistData() []Artist {
