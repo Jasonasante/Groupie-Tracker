@@ -10,7 +10,7 @@ import (
 
 type Data struct {
 	A Artist
-	R Relation
+	R Relation 
 }
 
 type Artist struct {
@@ -120,17 +120,23 @@ func RelationData() []Relation {
 	return relationInfo
 }
 
-func collectData() {
-	dataData := make([]Data, len(artistInfo))
+func collectData() []Data{
+	ArtistData()
+	RelationData()
 
+	dataData := make([]Data, len(artistInfo))
 	for i := 0; i < len(artistInfo); i++ {
-		for _, ele:=range dataData{
-			ele.A=append(ele[i].A, artistInfo[i])
-		}
-		
-		//dataData[i].R = append(dataData[i].R, relationInfo[i])
+		dataData[i].A= artistInfo[i]
+		dataData[i].R= relationInfo[i]
 	}
-	fmt.Println(dataData)
+	// for j:=range dataData{
+	// 	err := json.Unmarshal(dataData[j], &dataMap)
+	// if err != nil {
+	// 	fmt.Println("error :", err)
+	// }	
+	//}
+		fmt.Println(dataData[0])
+	return dataData
 }
 
 func HandleRequests() {
@@ -138,37 +144,38 @@ func HandleRequests() {
 	fmt.Println("now open a broswer and enter: localhost:8080 into the URL")
 	http.HandleFunc("/", homePage)
 	http.HandleFunc("/artists", returnAllArtists)
-	http.HandleFunc("/locations", returnAllLocations)
-	http.HandleFunc("/dates", returnAllDates)
-	http.HandleFunc("/relation", returnAllRelation)
+	// http.HandleFunc("/locations", returnAllLocations)
+	// http.HandleFunc("/dates", returnAllDates)
+	// http.HandleFunc("/relation", returnAllRelation)
 	http.ListenAndServe(":8080", nil)
 }
 
 func returnAllArtists(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("Endpoint Hit: returnAllArtists")
-	json.NewEncoder(w).Encode(ArtistData())
+	//json.NewEncoder(w).Encode(ArtistData())
+	//json.NewEncoder(w).Encode(RelationData())
+	json.NewEncoder(w).Encode(collectData())
 }
 
-func returnAllLocations(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("Endpoint Hit: returnAllLocations")
-	json.NewEncoder(w).Encode(LocationData())
-}
+// func returnAllLocations(w http.ResponseWriter, r *http.Request) {
+// 	fmt.Println("Endpoint Hit: returnAllLocations")
+// 	json.NewEncoder(w).Encode(LocationData())
+// }
 
-func returnAllDates(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("Endpoint Hit: returnAllDates")
-	json.NewEncoder(w).Encode(DatesData())
-}
+// func returnAllDates(w http.ResponseWriter, r *http.Request) {
+// 	fmt.Println("Endpoint Hit: returnAllDates")
+// 	json.NewEncoder(w).Encode(DatesData())
+// }
 
-func returnAllRelation(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("Endpoint Hit: returnAllRelation")
-	json.NewEncoder(w).Encode(RelationData())
-}
+// func returnAllRelation(w http.ResponseWriter, r *http.Request) {
+// 	fmt.Println("Endpoint Hit: returnAllRelation")
+// 	json.NewEncoder(w).Encode(RelationData())
+// }
 
 func homePage(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprint(w, "Welcome to Groupie-Tracker")
 }
 
 func main() {
-	collectData()
 	HandleRequests()
 }
