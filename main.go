@@ -5,18 +5,21 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	//"text/template"
 )
 
+type Data struct {
+	A Artist
+	R Relation
+}
+
 type Artist struct {
-	Id               uint     `json:"id"`
-	Name             string   `json:"name"`
-	Image            string   `json:"image"`
-	Members          []string `json:"members"`
-	CreationDate     uint     `json:"creationDate"`
-	FirstAlbum       string   `json:"firstAlbum"`
-	ConcertLocations string   `json:"locations"`
-	ConcertDates     string   `json:"concertDates"`
-	Relations        string   `json:"relations"`
+	Id           uint     `json:"id"`
+	Name         string   `json:"name"`
+	Image        string   `json:"image"`
+	Members      []string `json:"members"`
+	CreationDate uint     `json:"creationDate"`
+	FirstAlbum   string   `json:"firstAlbum"`
 }
 
 type Location struct {
@@ -31,18 +34,21 @@ type Date struct {
 }
 
 type Relation struct {
-	Id             uint                       `json:"id"`
-	DatesLocations map[string]json.RawMessage `json:"datesLocations"`
+	DatesLocations map[string][]string `json:"datesLocations"`
+}
+
+type GetImage struct {
+	Img []string
 }
 
 var (
-	artistInfo       []Artist
-	locationMap      map[string]json.RawMessage
-	locationInfo     []Location
-	datesMap         map[string]json.RawMessage
-	datesInfo        []Date
-	relationMap      map[string]json.RawMessage
-	relationInfo     []Relation
+	artistInfo   []Artist
+	locationMap  map[string]json.RawMessage
+	locationInfo []Location
+	datesMap     map[string]json.RawMessage
+	datesInfo    []Date
+	relationMap  map[string]json.RawMessage
+	relationInfo []Relation
 )
 
 func ArtistData() []Artist {
@@ -69,6 +75,7 @@ func LocationData() []Location {
 	if err != nil {
 		fmt.Println("error :", err)
 	}
+	fmt.Println(locationInfo[1])
 	return locationInfo
 }
 
@@ -96,7 +103,6 @@ func RelationData() []Relation {
 	var bytes []byte
 	relation, _ := http.Get("https://groupietrackers.herokuapp.com/api/relation")
 	relationData, _ := ioutil.ReadAll(relation.Body)
-	// fmt.Println("relationData:", string(relationData))
 	err := json.Unmarshal(relationData, &relationMap)
 	if err != nil {
 		fmt.Println("error :", err)
@@ -111,8 +117,20 @@ func RelationData() []Relation {
 	if err != nil {
 		fmt.Println("error :", err)
 	}
-	// fmt.Println("RelationMap:", (relationMap))
 	return relationInfo
+}
+
+func collectData() {
+	dataData := make([]Data, len(artistInfo))
+
+	for i := 0; i < len(artistInfo); i++ {
+		for _, ele:=range dataData{
+			ele.A=append(ele[i].A, artistInfo[i])
+		}
+		
+		//dataData[i].R = append(dataData[i].R, relationInfo[i])
+	}
+	fmt.Println(dataData)
 }
 
 func HandleRequests() {
@@ -151,5 +169,6 @@ func homePage(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
+	collectData()
 	HandleRequests()
 }
