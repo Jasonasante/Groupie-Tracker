@@ -3,14 +3,14 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"html/template"
 	"io/ioutil"
 	"net/http"
-	//"text/template"
 )
 
 type Data struct {
 	A Artist
-	R Relation 
+	R Relation
 }
 
 type Artist struct {
@@ -35,10 +35,6 @@ type Date struct {
 
 type Relation struct {
 	DatesLocations map[string][]string `json:"datesLocations"`
-}
-
-type GetImage struct {
-	Img []string
 }
 
 var (
@@ -113,29 +109,36 @@ func RelationData() []Relation {
 			bytes = append(bytes, v)
 		}
 	}
+
 	err = json.Unmarshal(bytes, &relationInfo)
 	if err != nil {
 		fmt.Println("error :", err)
 	}
+
+// 	DataMap := make([][]string, len(relationInfo))
+// 	for i := range DataMap {
+// 		DataMap[i] = make([]string, len(relationInfo))
+// 	}
+// count:=0
+// 	for j, ele := range relationInfo {
+// 		for i, mapData := range ele.DatesLocations {
+// 			DataMap[j]=ele.DatesLocations[i]
+// 			DataMap[j][count]=mapData[count]
+// 			count++
+// 		}
+// 	}
+// 	fmt.Println(DataMap)
 	return relationInfo
 }
 
-func collectData() []Data{
+func collectData() []Data {
 	ArtistData()
 	RelationData()
-
 	dataData := make([]Data, len(artistInfo))
 	for i := 0; i < len(artistInfo); i++ {
-		dataData[i].A= artistInfo[i]
-		dataData[i].R= relationInfo[i]
+		dataData[i].A = artistInfo[i]
+		dataData[i].R = relationInfo[i]
 	}
-	// for j:=range dataData{
-	// 	err := json.Unmarshal(dataData[j], &dataMap)
-	// if err != nil {
-	// 	fmt.Println("error :", err)
-	// }	
-	//}
-		fmt.Println(dataData[0])
 	return dataData
 }
 
@@ -143,37 +146,47 @@ func HandleRequests() {
 	fmt.Println("Starting Server at Port 8080")
 	fmt.Println("now open a broswer and enter: localhost:8080 into the URL")
 	http.HandleFunc("/", homePage)
-	http.HandleFunc("/artists", returnAllArtists)
-	// http.HandleFunc("/locations", returnAllLocations)
-	// http.HandleFunc("/dates", returnAllDates)
-	// http.HandleFunc("/relation", returnAllRelation)
+	http.HandleFunc("/artistInfo", artistPage)
+	http.HandleFunc("/locations", returnAllLocations)
+	http.HandleFunc("/dates", returnAllDates)
+	http.HandleFunc("/relation", returnAllRelation)
 	http.ListenAndServe(":8080", nil)
 }
 
-func returnAllArtists(w http.ResponseWriter, r *http.Request) {
+func homePage(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("Endpoint Hit: returnAllArtists")
-	//json.NewEncoder(w).Encode(ArtistData())
-	//json.NewEncoder(w).Encode(RelationData())
-	json.NewEncoder(w).Encode(collectData())
+	data := ArtistData()
+	t, _ := template.ParseFiles("template.html")
+	t.Execute(w, data)
 }
 
-// func returnAllLocations(w http.ResponseWriter, r *http.Request) {
-// 	fmt.Println("Endpoint Hit: returnAllLocations")
-// 	json.NewEncoder(w).Encode(LocationData())
-// }
+func artistPage(w http.ResponseWriter, r *http.Request) {
+	value := r.FormValue("ArtistName")
+	fmt.Println(value)
+	a := collectData()
+	var b Data
+	for i, ele := range collectData() {
+		if value == ele.A.Name {
+			b = a[i]
+		}
+	}
+	t, _ := template.ParseFiles("artistPage.html")
+	t.Execute(w, b)
+}
 
-// func returnAllDates(w http.ResponseWriter, r *http.Request) {
-// 	fmt.Println("Endpoint Hit: returnAllDates")
-// 	json.NewEncoder(w).Encode(DatesData())
-// }
+func returnAllLocations(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("Endpoint Hit: returnAllLocations")
+	json.NewEncoder(w).Encode(LocationData())
+}
 
-// func returnAllRelation(w http.ResponseWriter, r *http.Request) {
-// 	fmt.Println("Endpoint Hit: returnAllRelation")
-// 	json.NewEncoder(w).Encode(RelationData())
-// }
+func returnAllDates(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("Endpoint Hit: returnAllDates")
+	json.NewEncoder(w).Encode(DatesData())
+}
 
-func homePage(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprint(w, "Welcome to Groupie-Tracker")
+func returnAllRelation(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("Endpoint Hit: returnAllRelation")
+	json.NewEncoder(w).Encode(RelationData())
 }
 
 func main() {
