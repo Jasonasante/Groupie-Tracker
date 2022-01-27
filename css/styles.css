@@ -1,0 +1,34 @@
+#Title{
+    text-align: center;
+    color: blueviolet;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+body{
+    background-color: black;
+}
+
+.container {
+
+display:grid;
+grid-template-columns: 20% 20% 20% 20% 20%;
+grid-template-rows: repeat(20%);
+  }
+
+  .container img{
+    width: 200px;
+    height: 200px;
+    border-radius: 30px;
+  }
+
+  .container .btn {
+    
+    align-self: center;
+    flex-flow: row wrap;
+    background-color: #555;
+    color: white;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    width: 100px;
+    height: 30px;
+  }
