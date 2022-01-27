@@ -11,6 +11,8 @@ import (
 type Data struct {
 	A Artist
 	R Relation
+	L Location
+	D Date
 }
 
 type Artist struct {
@@ -23,13 +25,10 @@ type Artist struct {
 }
 
 type Location struct {
-	Id        uint     `json:"id"`
 	Locations []string `json:"locations"`
-	Dates     string   `json:"dates"`
 }
 
 type Date struct {
-	Id    uint     `json:"id"`
 	Dates []string `json:"dates"`
 }
 
@@ -71,7 +70,6 @@ func LocationData() []Location {
 	if err != nil {
 		fmt.Println("error :", err)
 	}
-	fmt.Println(locationInfo[1])
 	return locationInfo
 }
 
@@ -114,43 +112,22 @@ func RelationData() []Relation {
 	if err != nil {
 		fmt.Println("error :", err)
 	}
-
-// 	DataMap := make([][]string, len(relationInfo))
-// 	for i := range DataMap {
-// 		DataMap[i] = make([]string, len(relationInfo))
-// 	}
-// count:=0
-// 	for j, ele := range relationInfo {
-// 		for i, mapData := range ele.DatesLocations {
-// 			DataMap[j]=ele.DatesLocations[i]
-// 			DataMap[j][count]=mapData[count]
-// 			count++
-// 		}
-// 	}
-// 	fmt.Println(DataMap)
 	return relationInfo
 }
 
 func collectData() []Data {
 	ArtistData()
 	RelationData()
+	LocationData()
+	DatesData()
 	dataData := make([]Data, len(artistInfo))
 	for i := 0; i < len(artistInfo); i++ {
 		dataData[i].A = artistInfo[i]
 		dataData[i].R = relationInfo[i]
+		dataData[i].L = locationInfo[i]
+		dataData[i].D = datesInfo[i]
 	}
 	return dataData
-}
-
-func HandleRequests() {
-	fmt.Println("Starting Server at Port 8080")
-	fmt.Println("now open a broswer and enter: localhost:8080 into the URL")
-	http.HandleFunc("/", homePage)
-	http.HandleFunc("/artistInfo", artistPage)
-	http.HandleFunc("/locations", returnAllLocations)
-	http.HandleFunc("/dates", returnAllDates)
-	http.HandleFunc("/relation", returnAllRelation)
-	http.ListenAndServe(":8080", nil)
 }
 
 func homePage(w http.ResponseWriter, r *http.Request) {
@@ -162,7 +139,6 @@ func homePage(w http.ResponseWriter, r *http.Request) {
 
 func artistPage(w http.ResponseWriter, r *http.Request) {
 	value := r.FormValue("ArtistName")
-	fmt.Println(value)
 	a := collectData()
 	var b Data
 	for i, ele := range collectData() {
@@ -187,6 +163,18 @@ func returnAllDates(w http.ResponseWriter, r *http.Request) {
 func returnAllRelation(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("Endpoint Hit: returnAllRelation")
 	json.NewEncoder(w).Encode(RelationData())
+}
+
+func HandleRequests() {
+	fmt.Println("Starting Server at Port 8080")
+	fmt.Println("now open a broswer and enter: localhost:8080 into the URL")
+	http.HandleFunc("/", homePage)
+	http.HandleFunc("/artistInfo", artistPage)
+	http.HandleFunc("/locations", returnAllLocations)
+	http.HandleFunc("/dates", returnAllDates)
+	http.HandleFunc("/relation", returnAllRelation)
+	http.Handle("/css/", http.StripPrefix("/css/", http.FileServer(http.Dir("css"))))
+	http.ListenAndServe(":8080", nil)
 }
 
 func main() {
