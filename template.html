@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-
+<link rel="stylesheet" href="css/styles.css">
 <html lang="en">
 
     <head class="Title">
@@ -7,14 +7,13 @@
     </head>
 
     <body>
-{{range .}}
-<form action= /artistInfo method="post">
-<image src={{.Image}}></image>
-<div class="submit">
-    <input type="submit" id=Submit name="ArtistName" value={{.Name}}>
-</div>
-
-{{end}}
-    </form>
+            <div class="flexGrid"></div>
+                <form action= /artistInfo method="post">  
+                {{range .}}
+                <image src={{.Image}}></image>
+                <input type="submit" id=Submit name="ArtistName" value={{.Name}}> 
+                {{end}}
+            </div>
+        </form>
     </body>
 </html>
