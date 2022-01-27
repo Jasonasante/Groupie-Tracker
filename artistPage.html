@@ -1,13 +1,38 @@
 <!DOCTYPE html>
-
+<link rel="stylesheet" href="css/styles.css">
 <html lang="en">
     <body>
-{{.A.Name}} <br>
-{{.A.Members}}<br>
-<image src={{.A.Image}}></image><br>
-{{.A.CreationDate}}<br>
-{{.A.FirstAlbum}}<br>
-{{.R.DatesLocations}}
-        </br>
+        <div class="image">
+            <image src={{.A.Image}}></image><br>   
+        </div>
+         <div class="name">
+            <h2>{{.A.Name}} </h2>
+        </div>
+        <div class="members">
+            <h3>Members</h3>
+            {{ range $value := .A.Members }}
+            <p>{{ $value }}</p>
+            {{ end }}
+        </div>
+        <div class="creation">
+            <h3>Date Founded: </h3>
+            <p>{{.A.CreationDate}}</p>
+        </div>
+        <div class="firstAlbum">
+            <h3>Release of First Album: </h3>
+            <p>{{.A.FirstAlbum}}</p>
+        </div>
+        <div class="DatesLocations">
+            <h3>Concert Dates and Location</h3>
+            {{ range $key, $value := .R.DatesLocations }}
+            <p>{{ $key }}: {{ $value}}</p>
+            {{ end }}
+        </div>
+        <div class="locations">
+            <h3> Previously Visited Locations:</h3>
+            {{ range $key, $value := .L.Locations}}
+            <p>{{ $value}}</p>
+            {{ end }}
+        </div>
     </body>
 </html>
