@@ -2,18 +2,18 @@
 <link rel="stylesheet" href="css/styles.css">
 <html lang="en">
 
-    <head class="Title">
-        <h1>Welcome to Groupie Tracker!</h1>
-    </head>
+        <h1 id="Title">Welcome to Groupie Tracker!</h1>
 
     <body>
-            <div class="flexGrid"></div>
                 <form action= /artistInfo method="post">  
+                 <div class="container">
                 {{range .}}
-                <image src={{.Image}}></image>
-                <input type="submit" id=Submit name="ArtistName" value={{.Name}}> 
+                 
+                <img src={{.Image}} name="ArtistName" value="{{.Name}}" alt={{.Name}} id="img"/>
+               <button class="btn" name="ArtistName" value={{.Name}}>{{.Name}}</button>
                 {{end}}
-            </div>
+                 </div> 
+                 
         </form>
     </body>
 </html>
