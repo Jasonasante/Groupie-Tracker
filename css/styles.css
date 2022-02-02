@@ -42,9 +42,7 @@ row-gap: 10px;
   background-color: transparent;
   width: 120px;
   height: 120px;
-  perspective: 500px; /* Remove this if you don't want the 3D effect */
-  animation-duration: 4s;
-  animation-name: slidein;
+  /* perspective: 500px; Remove this if you don't want the 3D effect */
 }
 
 /* This container is needed to position the front and back side */
@@ -53,7 +51,7 @@ row-gap: 10px;
   width: 120px;
   height: 120px;
   text-align: center;
-  transition: transform 0.3s;
+  transition: transform 0.45s;
   transform-style: preserve-3d;
 
 }
@@ -76,22 +74,21 @@ row-gap: 10px;
 
 /* Style the back side */
 .flip-card-back {
-  display:grid;
-  grid-template: 1fr 1fr 1fr/1fr 1fr 1fr;
-  text-align: center;
-  align-content: center;
-  background-color: yellow;
-  border-radius: 30px;
-  color: black;
   transform: rotateY(180deg);
 }
 
 #back{
+  background-color: yellow;
+  font-weight: 900;
   font-size: small;
+  color: black;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   grid-row-start:2 ;
   grid-column-start: 2;
+  cursor:pointer;
 }
+
+
 
 .image, img{
   text-align: center;
