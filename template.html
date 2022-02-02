@@ -1,19 +1,16 @@
 <!DOCTYPE html>
 <link rel="stylesheet" href="css/styles.css">
 <html lang="en">
-
+    
         <h1 id="Title">Welcome to Groupie Tracker!</h1>
-
-    <body>
-                <form action= /artistInfo method="post">  
-                 <div class="container">
-                {{range .}}
-                 
-                <img src={{.Image}} name="ArtistName" value="{{.Name}}" alt={{.Name}} id="img"/>
-               <button class="btn" name="ArtistName" value={{.Name}}>{{.Name}}</button>
-                {{end}}
-                 </div> 
-                 
-        </form>
+    <body> 
+        <div class="container">
+        {{range .}}
+            <form action= /artistInfo method="post"> 
+                <input type="hidden"  name="ArtistName" value="{{.Name}}" alt={{.Name}}>
+                <input type="image" src={{.Image}}>
+            </form>
+        {{end}}
+        </div> 
     </body>
 </html>
