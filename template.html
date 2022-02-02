@@ -7,8 +7,17 @@
         <div class="container">
         {{range .}}
             <form action= /artistInfo method="post"> 
-                <input type="hidden"  name="ArtistName" value="{{.Name}}" alt={{.Name}}>
-                <input type="image" src={{.Image}}>
+                <div class="flip-card">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <input type="hidden"  name="ArtistName" value="{{.Name}}" alt={{.Name}}>
+                            <input type="image" src={{.Image}}>
+                        </div>
+                        <div class="flip-card-back">
+                        <h1 id="back">{{.Name}}</h1>
+                        </div>
+                    </div>
+                 </div>
             </form>
         {{end}}
         </div> 
