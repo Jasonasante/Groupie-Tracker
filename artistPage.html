@@ -5,9 +5,10 @@
         <div class="image">
             <image src={{.A.Image}}></image><br>   
         </div>
-         <div class="name">
+        <div class="name">
             <h2>{{.A.Name}} </h2>
         </div>
+        <div class="box">
         <div class="members">
             <h3>Members</h3>
             {{ range $value := .A.Members }}
@@ -25,14 +26,11 @@
         <div class="DatesLocations">
             <h3>Concert Dates and Location</h3>
             {{ range $key, $value := .R.DatesLocations }}
-            <p>{{ $key }}: {{ $value}}</p>
+            {{ range $value}}
+            <p>{{ $key }}: {{.}}</p>
+            {{ end }}
             {{ end }}
         </div>
-        <div class="locations">
-            <h3> Previously Visited Locations:</h3>
-            {{ range $key, $value := .L.Locations}}
-            <p>{{ $value}}</p>
-            {{ end }}
-        </div>
+    </div>
     </body>
 </html>
