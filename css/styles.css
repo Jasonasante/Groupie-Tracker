@@ -1,21 +1,83 @@
 #Title{
-    text-align: center;
-    color: blueviolet;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
+  text-align: center;
+  color: yellow;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
+
 body{
-    background-color: black;
+  background-color: black;
+  background-image: url(../css/BG.png);
+  background-size: cover;
 }
 
 .container {
-display:grid;
-grid-template-columns: 20% 20% 20% 20% 20%;
-grid-template-rows: repeat(20%);
-row-gap: 10px;
+display: flex;
+justify-content: space-between;
+flex-wrap: wrap;
 }
 
 .container input{
-  width: 200px;
-  height: 200px;
+  width: 120px;
+  height: 120px;
   border-radius: 30px;
 }
+
+.image, img{
+  text-align: center;
+  border-radius: 30px;
+ }
+
+ .box{
+  display: flex;
+  justify-content: space-around;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  color: black;
+ }
+
+ .name{
+   font-size: x-large;
+  color: yellow;
+  text-align: center;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  border-radius: 30px;
+ }
+
+ .members{
+  background-color: yellow;
+  border-radius: 30px;
+  border-color: black;
+  border-width: 20px;
+  text-align: center;
+  align-self: center;
+  padding: 10px;
+ }
+
+ .creation{
+  background-color: yellow;
+  border-radius: 30px;
+  border-color: black;
+  border-width: 20px;
+  text-align: center;
+  align-self: center;
+  padding: 10px;
+ }
+
+ .firstAlbum{
+  background-color: yellow;
+  border-radius: 30px;
+  border-color: black;
+  border-width: 20px;
+  text-align: center;
+  align-self: center;
+  padding: 10px;
+ }
+
+ .DatesLocations{
+  background-color: yellow;
+  border-radius: 30px;
+  border-color: black;
+  border-width: 20px;
+  text-align: center;
+  align-content: center;
+  padding: 10px;
+ }
