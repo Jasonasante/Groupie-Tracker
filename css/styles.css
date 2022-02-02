@@ -6,8 +6,9 @@ body{
 
 .container {
 display: flex;
-justify-content: space-between;
 flex-wrap: wrap;
+justify-content: space-between;
+row-gap: 10px;
 }
 
 @keyframes slidein {
@@ -35,6 +36,61 @@ flex-wrap: wrap;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   animation-duration: 4s;
   animation-name: slidein;
+}
+
+.flip-card {
+  background-color: transparent;
+  width: 120px;
+  height: 120px;
+  perspective: 500px; /* Remove this if you don't want the 3D effect */
+  animation-duration: 4s;
+  animation-name: slidein;
+}
+
+/* This container is needed to position the front and back side */
+.flip-card-inner {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  text-align: center;
+  transition: transform 0.3s;
+  transform-style: preserve-3d;
+
+}
+
+/* Do an horizontal flip when you move the mouse over the flip box container */
+.flip-card:hover .flip-card-inner {
+  transform: rotateY(180deg);
+}
+
+/* Position the front and back side */
+.flip-card-front, .flip-card-back {
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  -webkit-backface-visibility: hidden; /* Safari */
+  backface-visibility: hidden;
+}
+
+/* Style the front side (fallback if image is missing) */
+
+/* Style the back side */
+.flip-card-back {
+  display:grid;
+  grid-template: 1fr 1fr 1fr/1fr 1fr 1fr;
+  text-align: center;
+  align-content: center;
+  background-color: yellow;
+  border-radius: 30px;
+  color: black;
+  transform: rotateY(180deg);
+}
+
+#back{
+  font-size: small;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  grid-row-start:2 ;
+  grid-column-start: 2;
 }
 
 .image, img{
@@ -98,7 +154,7 @@ flex-wrap: wrap;
  }
 
 bdy{
-     display:grid;
+  display:grid;
    grid-template: 1fr 1fr 1fr/1fr 1fr 1fr;
 }
 
