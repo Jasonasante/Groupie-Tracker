@@ -82,6 +82,15 @@ func errorHandler(w http.ResponseWriter, r *http.Request, status int) {
 		p := Text{ErrorNum: status, ErrorMes: em}
 		t.Execute(w, p)
 	}
+	if status == http.StatusBadRequest {
+		t, err := template.ParseFiles("errorPage.html")
+		if err!=nil{
+			fmt.Fprint(w, "HTTP status 500: Internal Server Error -missing errorPage.html file")
+		}
+		em := "HTTP status 400: Bad Request! Please select artist from the Home Page"
+		p := Text{ErrorNum: status, ErrorMes: em}
+		t.Execute(w, p)
+	}
 }
 
 
@@ -226,6 +235,10 @@ func artistPage(w http.ResponseWriter, r *http.Request) {
 	}
 	fmt.Println("Endpoint Hit: Artist's Page")
 	value := r.FormValue("ArtistName")
+	if value==""{
+		errorHandler(w, r, http.StatusBadRequest)
+		return
+	}
 	a := collectData()
 	var b Data
 	for i, ele := range collectData() {
