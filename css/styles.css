@@ -9,6 +9,7 @@ display: flex;
 flex-wrap: wrap;
 justify-content: space-between;
 row-gap: 10px;
+column-gap: 10px;
 }
 
 @keyframes slidein {
@@ -86,13 +87,26 @@ row-gap: 10px;
   grid-row-start:2 ;
   grid-column-start: 2;
   cursor:pointer;
+  border: none;
 }
 
+@keyframes slideinImg {
+  from {
+    margin-left: 600%;
+    
+  }
 
+  to {
+    margin-right: 0%;
+    
+  }
+}
 
 .image, img{
   text-align: center;
   border-radius: 30px;
+  animation-duration: 3s;
+  animation-name: slideinImg;
  }
 
  .box{
@@ -100,6 +114,8 @@ row-gap: 10px;
   justify-content: space-around;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   color: black;
+  animation-duration: 3s;
+  animation-name: slidein;
  }
 
  .name{
@@ -108,6 +124,8 @@ row-gap: 10px;
   text-align: center;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   border-radius: 30px;
+  animation-duration: 2s;
+  animation-name: slidein;
  }
 
  .members{
